@@ -1,0 +1,6 @@
+.idea
+*.sqlite3
+venv
+*.pyc
+desafio_jera/__pycache__/
+.media
