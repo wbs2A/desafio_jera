@@ -24,6 +24,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'moviesplatform',
+    'accounts'
 ]
 
 MIDDLEWARE = [
@@ -80,7 +82,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'pt-Br'
 
 TIME_ZONE = 'UTC'
 
@@ -92,8 +94,6 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
-STATIC_ROOT = 'static'
-
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
@@ -102,3 +102,5 @@ MEDIA_URL = '/media/'
 
 
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+TMDB_API_KEY = 'ae804fac9c080aef958f227739738538'
