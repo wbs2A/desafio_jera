@@ -10,6 +10,21 @@ def get_banner_movie(_id, headers, query):
     return requests.request("GET", 'https://api.themoviedb.org/3/movie/' + str(_id) + '/videos', headers=headers, params=query)
 
 
+def find_genre(genlist,genr):
+    for g in genlist:
+        if g['id'] == genre:
+            return g['name']
+
+
+def genre(genre_list):
+    query = {"api_key": settings.TMDB_API_KEY, "language": translation.get_language()}
+    headers = {}
+    req = requests.request("GET", 'https://api.themoviedb.org/3/genre/movie/list', headers=headers, params=query)
+    data = json.loads(req.text)['genres']
+    result = [find_genre(data, genre) for genre in genre_list]
+    return result
+
+
 def get_popular_movies(urls, headers, query):
     json_data = {}
     for req in urls:
@@ -29,7 +44,7 @@ def homepage(request):
     query = {"api_key": settings.TMDB_API_KEY, "language": translation.get_language()}
 
     #Cabeçalho da requisição
-    headers = {    }
+    headers = {}
 
     json_data = get_popular_movies(urls, headers, query)
 
@@ -41,7 +56,6 @@ def homepage(request):
 
     if page == 1:
         json_data['recomend'] = json.loads(get_banner_movie(json_data['movies']['results'][0]['id'], headers, query).text)
-        print('entrei1')
         context['recomendation'] = json_data['recomend']['results'][0]['key']
 
     return render(request, template_name='moviesplatform/homepage.html', context=context)
