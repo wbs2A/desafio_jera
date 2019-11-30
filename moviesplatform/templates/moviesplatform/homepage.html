@@ -1,10 +1,66 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
-{{ data }}
-</body>
-</html>
+{% extends 'core/base.html' %}
+{% block content %}
+    {% if recomendation %}
+        <div class="container" style="padding: 2px">
+        <h3>Recomendação</h3>
+        <div class="video-container">
+                 <iframe width="100%" height="345" src="https://www.youtube.com/embed/{{ recomendation }}?autoplay=0" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
+    {% endif %}
+    <div class="container-fluid">
+        <div class="row" style="padding-right: 2%">
+            {% for movie in movies %}
+                <div class="col-xs col-md-3 col-lg-2">
+                    <button  type="button" class="btn pop" data-container="body" data-toggle="popover" data-placement="right" data-content="<h5 class=&quotcard-title&quot><span> {{ movie.vote_average }}</span> |{{ movie.title }} <small class=&quottext-muted&quot> {{ movie.release_date|date:'d, M Y' }} </small></h5> <p class=&quottext-justify card-text &quot>{% if movie.overview %} {{ movie.overview }} {% else %} Acesse para saber mais... {% endif %}</p> <p><a href='#'> Adicionar à lista <i class='fa fa-plus'></a></i> </p>  <p class=&quotcard-text&quot><small class=&quottext-muted&quot>{{ movie.genre_ids }}</small></p>" data-original-title="{{ movie.title}}"><img src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" width="250"></button>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div class="container">
+        <div class="d-flex justify-content-center">
+            <nav aria-label="...">
+                <ul class="pagination">
+                    {% if page == 1 %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Anterior</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page|add:'-1'}}" tabindex="-1">Anterior</a>
+                    </li>
+                    {% endif %}
+                    {% if page == total_pages %}
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1">Próxima</a>
+                    </li>
+                    {% else %}
+                    <li class="page-item">
+                        <a class="page-link" href="?page={{ page|add:1 }}" tabindex="-1">Próxima</a>
+                    </li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </div>
+    </div>
+
+{% endblock %}
+{% block script %}
+<script>
+$(".pop").popover({ trigger: "manual" , html: true, animation:false})
+    .on("mouseenter", function () {
+        var _this = this;
+        $(this).popover("show");
+        $(".popover").on("mouseleave", function () {
+            $(_this).popover('hide');
+        });
+    }).on("mouseleave", function () {
+        var _this = this;
+        setTimeout(function () {
+            if (!$(".popover:hover").length) {
+                $(_this).popover("hide");
+            }
+        }, 300);
+});
+</script>
+{% endblock %}
