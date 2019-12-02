@@ -41,10 +41,10 @@
                     <div class="dropdown col-2">
                         <button class="btn  btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-alt"></i> </button>
                       <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                          <a class="dropdown-item" href="#">Minha Lista</a>
-                          <a class="dropdown-item" href="#">Assistidos</a>
-                          <a class="dropdown-item" href="#">Perfis e Configurações</a>
-                          <a class="dropdown-item" href="{% url 'logout' %}">Sair</a>
+                          <a class="dropdown-item" href="#">Minha Lista <span class="float-right"><i class="fa fa-list"></i></span></a>
+                          <a class="dropdown-item" href="#">Assistidos <span class="float-right"> <i class="fa fa-eye"></i></span></a>
+                          <a class="dropdown-item" href="{% url 'profiles_and_conf' %}">Perfis e Config. &nbsp <span class="float-right"><i class="fa fa-wrench"></i></span></a>
+                          <a class="dropdown-item" href="{% url 'logout' %}">Sair <span class="float-right"> <i class="fa fa-sign-out-alt"></i></span></a>
                       </div>
 
                     </div>

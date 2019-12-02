@@ -12,27 +12,25 @@ from django.dispatch import receiver
 
 
 class UserManager(BaseUserManager):
-    def _create_user(self, username, email, password, is_staff, is_superuser, **extra_fields):
+    def _create_user(self, email, password, is_staff, is_superuser, **extra_fields):
         now = timezone.now()
-        if not username:
-            raise ValueError(_('The given username must be set'))
+        if not email:
+            raise ValueError(_('O e-mail é obrigatório'))
         email = self.normalize_email(email)
-        user = self.model(username=username, email=email, is_staff=is_staff, is_active=True, is_superuser=is_superuser, last_login=now, date_joined=now, **extra_fields)
+        user = self.model(email=email, is_staff=is_staff, is_active=True, is_superuser=is_superuser, last_login=now, date_joined=now, **extra_fields)
         user.set_password(password)
         user.save(using=self._db)
         return user
-    def create_user(self, username, email=None, password=None, **extra_fields):
-        return self._create_user(username, email, password, False, False, **extra_fields)
-    def create_superuser(self, username, email, password, **extra_fields):
-        user=self._create_user(username, email, password, True, True, **extra_fields)
+    def create_user(self, email=None, password=None, **extra_fields):
+        return self._create_user(email, password, False, False, **extra_fields)
+    def create_superuser(self, email, password, **extra_fields):
+        user=self._create_user(email, password, True, True, **extra_fields)
         user.is_active=True
         user.save(using=self._db)
         return user
 
 
 class User(AbstractBaseUser, PermissionsMixin):
-    username = models.CharField(_('username'), max_length=15, unique=True, help_text=_('Required. 15 characters or fewer. Letters, numbers and @/./+/-/_ characters'), validators=[validators.RegexValidator(re.compile('^[\w.@+-]+$'), _('Enter a valid username.'), _('invalid'))])
-
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30)
     email = models.EmailField(_('email address'), max_length=255, unique=True)
@@ -66,6 +64,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Account(models.Model):
     user = models.OneToOneField('User', on_delete=models.CASCADE)
+    current_profile = models.IntegerField(blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
 
 
@@ -87,7 +86,16 @@ def update_user_account(sender, instance, created, **kwargs):
     instance.account.save()
 
 
+class Movie(models.Model):
+    movieid = models.IntegerField()
+    name = models.CharField(max_length=121)
+
+    def __str__(self):
+        return self.name
+
+
 class Profile(models.Model):
     name = models.CharField(max_length=20)
     account = models.ForeignKey(Account, models.DO_NOTHING)
     image = models.ImageField()
+    movies_list = models.ManyToManyField(Movie)

@@ -3,23 +3,21 @@
 {% block title %}
     Criar conta
 {% endblock %}
-{% block main %}
-<div class="container">
+{% block content %}
+    <div class="container-fluid bg-dark text-white col-9">
         <h1>Crie sua conta</h1>
-        <div class="container bg-dark text-white col-6">
-            <form method="post" class="form">
-                {% csrf_token %}
-                {% for field in form %}
-                    <p>
-                        {{ field|bootstrap }}
-                        {% for error in field.errors %}
-                            <p style="color: red">{{ error }}</p>
-                        {% endfor %}
-                {% endfor %}
-                <div class="text-center">
-                    <button class="btn btn-success form-control col-3" type="submit">Confirmar</button>
-                </div>
-            </form>
-        </div>
-</div>
+        <form method="post" class="form">
+            {% csrf_token %}
+            {% for field in form %}
+                <p>
+                    {{ field|bootstrap }}
+                    {% for error in field.errors %}
+                        <p style="color: red">{{ error }}</p>
+                    {% endfor %}
+            {% endfor %}
+            <div class="text-center">
+                <button class="btn btn-success form-control col-3" type="submit">Confirmar</button>
+            </div>
+        </form>
+    </div>
 {% endblock %}
