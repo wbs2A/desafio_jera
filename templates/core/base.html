@@ -16,7 +16,7 @@
     <title>{% block title %}    {% endblock %}</title>
   </head>
     <body>
-        <div id="navbar">
+        <div id="navbar col">
             <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
                 <a class="navbar-brand logo text-white" href="{% url 'homepage' %}">JERA_CHALLENGE</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -33,9 +33,26 @@
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="post">
                     {% csrf_token %}
-                  <input name="search_query" class="form-control mr-sm-2" type="search" placeholder="Harry Potter..." aria-label="Pesquisar">
+                  <input name="search_query" class="form-control mr-sm-2" type="search" placeholder="Harry Potter..." required aria-label="Pesquisar">
                   <button class="btn btn-outline-success my-2 my-sm-0 text-white-50" type="submit">Buscar</button>
                 </form>
+
+                {% if user.is_authenticated %}
+                    <div class="dropdown col-2">
+                        <button class="btn  btn-dark dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-alt"></i> </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                          <a class="dropdown-item" href="#">Minha Lista</a>
+                          <a class="dropdown-item" href="#">Assistidos</a>
+                          <a class="dropdown-item" href="#">Perfis e Configurações</a>
+                          <a class="dropdown-item" href="{% url 'logout' %}">Sair</a>
+                      </div>
+
+                    </div>
+                {% else %}
+                    <div>
+                        <a class="btn btn-black text-white" href="{% url 'login' %}">Sign Up/Login</a>
+                    </div>
+                {% endif %}
               </div>
             </nav>
         </div>

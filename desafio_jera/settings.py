@@ -24,8 +24,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'accounts',
     'moviesplatform',
-    'accounts'
+    'social_django',
+    'bootstrapform'
 ]
 
 MIDDLEWARE = [
@@ -104,3 +106,9 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 TMDB_API_KEY = 'ae804fac9c080aef958f227739738538'
+
+AUTH_USER_MODEL = 'accounts.User'
+
+LOGIN_REDIRECT_URL = 'homepage'
+
+LOGOUT_REDIRECT_URL = 'homepage'

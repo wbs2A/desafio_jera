@@ -1,0 +1,32 @@
+{% load static %}
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Website criado para o desafio prático da JERA! Este site visa demonstrar os conhecimentos práticos do uso da API do site The Movie DB. Esta plataforma foi desenvolvida com python 3 e Django 2.2.">
+    <meta name="author" content="Wesley Barbosa">
+    <meta name="generator" content="Beta v0.0.1">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <script src="https://kit.fontawesome.com/706f0392d6.js" crossorigin="anonymous"></script>
+  <script data-require="jquery@*" data-semver="2.1.1" src="//cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+    <script data-require="bootstrap@*" data-semver="3.2.0" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.js"></script>
+  <link href="https://fonts.googleapis.com/css?family=Press+Start+2P&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/app.css' %}">
+    <title>{% block title %}    {% endblock %}</title>
+  </head>
+    <body>
+        <div class="container">
+            <header class="blog-header py-3">
+                <div class="row flex-nowrap justify-content-between align-items-center">
+                    <div class="col text-center">
+                      <a class="navbar-brand logo text-white" href="{% url 'homepage' %}">JERA_CHALLENGE</a>
+                    </div>
+                </div>
+            </header>
+            {% block content %}
+
+            {% endblock %}
+        </div>
+    </body>
+</html>

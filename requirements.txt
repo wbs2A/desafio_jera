@@ -2,3 +2,6 @@ django
 social-auth-app-django
 requests
 urllib
+social-auth-app-django
+pillow
+django-bootstrap-form

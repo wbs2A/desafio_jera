@@ -1,0 +1,17 @@
+{% extends 'core/registration_base.html' %}
+{% load bootstrap %}
+{% block title %}Login{% endblock %}
+
+{% block content %}
+    <div class="container bg-dark text-white col-6">
+        <h2 class="text-center"> Acessar conta</h2>
+            <form method="post" class="form text-center">
+                {% csrf_token %}
+                {{ form|bootstrap }}
+                <button class="btn btn-success form-control col-3" type="submit">Login</button>
+            </form>
+        <div class="divider"></div>
+        <br>
+        <p class="text-white-50"> Ainda não tem conta? <a href="#"><em class="text-info"> Cadastre aqui!</em></a>  </p>
+    </div>
+{% endblock %}
