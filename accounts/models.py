@@ -7,6 +7,8 @@ from django.core.mail import send_mail
 from django.utils.http import urlquote
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin, BaseUserManager
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 
 class UserManager(BaseUserManager):
@@ -44,7 +46,7 @@ class User(AbstractBaseUser, PermissionsMixin):
     is_trusty = models.BooleanField(_('trusty'), default=False,
                                     help_text=_('Designates whether this user has confirmed his account.'))
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
+    REQUIRED_FIELDS = ['first_name', 'last_name']
     objects = UserManager()
 
     class Meta:
@@ -60,3 +62,32 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def email_user(self, subject, message, from_email=None):
         send_mail(subject, message, from_email, [self.email])
+
+
+class Account(models.Model):
+    user = models.OneToOneField('User', on_delete=models.CASCADE)
+    birth_date = models.DateField(null=True, blank=True)
+
+
+@receiver(post_save, sender=User)
+def create_user_account(sender, instance, created, **kwargs):
+    if created:
+        Account.objects.create(user=instance)
+
+
+@receiver(post_save, sender=User)
+def save_user_account(sender, instance, **kwargs):
+    instance.account.save()
+
+
+@receiver(post_save, sender=User)
+def update_user_account(sender, instance, created, **kwargs):
+    if created:
+        Account.objects.create(user=instance)
+    instance.account.save()
+
+
+class Profile(models.Model):
+    name = models.CharField(max_length=20)
+    account = models.ForeignKey(Account, models.DO_NOTHING)
+    image = models.ImageField()
