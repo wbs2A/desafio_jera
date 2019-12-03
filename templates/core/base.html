@@ -27,9 +27,6 @@
                     <li class="nav-item{% if request.path  == '/' %} active {% endif %}">
                         <a class="nav-link" href="{% url 'homepage' %}">Início</a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Gêneros</a>
-                    </li>
                 </ul>
                 <form class="form-inline my-2 my-lg-0" action="{% url 'search_movie' %}" method="post">
                     {% csrf_token %}
