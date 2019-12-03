@@ -1,0 +1,16 @@
+{% extends 'core/base.html' %}
+{% block title %}
+    Minha Lista
+{% endblock %}
+{% block content %}
+    <div class="container jumbotron" style="padding-top: 2%">
+        <h3> Você marcou para assistir: </h3>
+        <div class="row">
+            {% for movie in movies %}
+                <div class="col btn btn-outline-success">
+                    <a style="text-decoration: none" class="text-black" href="/filme/{{ movie.id }}"><strong>{{ movie }} </strong></a>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

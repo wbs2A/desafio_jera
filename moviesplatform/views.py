@@ -73,6 +73,7 @@ def search(request):
     context = {'result': json_data['results'],'page': json_data['page'], 'total_pages': json_data['total_pages']}
     return render(request, template_name='moviesplatform/results.html', context=context)
 
+
 def show_movie(request, movieid):
     url = 'https://api.themoviedb.org/3/movie/'+str(movieid)
     query = {"api_key": settings.TMDB_API_KEY, "language": translation.get_language()}

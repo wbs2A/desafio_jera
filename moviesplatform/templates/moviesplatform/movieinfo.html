@@ -1,6 +1,39 @@
 {% extends 'core/base.html' %}
 {% load genres %}
 {% block content %}
-{{ movie }}
-
+    <div class="container text-center jumbotron" style="padding-top: 3%">
+        <div class="col">
+            <h2 class="d-flex justify-content-center"> {{ movie.title }}</h2>
+            <p class="text-muted"> <ul style="list-style: none; display: inline"> {% for movie_genre in movie.genres %}
+            <li>{{ movie_genre.name}}</li>
+            {% endfor %}
+             </ul> </p>
+        </div>
+            <img style="max-width: 100%; height: auto" src="https://image.tmdb.org/t/p/w500/{{ movie.poster_path }}" width="300" height="150"><br><br>
+            <table class="table table-stripped table-dark table-bordered">
+                <thead>
+                    <tr>
+                        <th>Título Original</th>
+                        <th>Língua Original</th>
+                        <th>Resumo</th>
+                        <th>Nota de Avaliação</th>
+                        <th>Produtoras</th>
+                        <th>Lançado em</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>{{ movie.original_title }}</td>
+                        <td>{{ movie.original_language }}</td>
+                        <td><p class="text-justify">{{ movie.overview }}</p></td>
+                        <td>{{ movie.vote_average }}</td>
+                        <td><ul>{% for companie in movie.production_companies %}
+                            <li>{{ companie.name }}</li>
+                        {% endfor %}
+                        </ul></td>
+                        <td>{{ movie.release_date}}</td>
+                    </tr>
+                </tbody>
+            </table>
+    </div>
 {% endblock %}
