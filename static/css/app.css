@@ -17,3 +17,27 @@
 }
 
 .navbar {min-height:70px !important}
+
+
+.wrap {
+    display: flex;
+    background: white;
+    padding: 1rem 1rem 1rem 1rem;
+    border-radius: 0.5rem;
+    box-shadow: 7px 7px 30px -5px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+  position: relative;
+}
+
+.wrap a{
+  position: absolute;
+  width:100%;
+  height:100%;
+  top:0px;
+  left:0px;
+}
+
+.wrap:hover {
+    background: linear-gradient(135deg,#6394ff 0%,#0a193b 100%);
+    color: white;
+}

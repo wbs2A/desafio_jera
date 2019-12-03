@@ -6,7 +6,9 @@
     Para mais informações, acessar (For more information please see):
         https://docs.djangoproject.com/en/2.2/topics/http/urls/
 """
+from django.conf import settings
 from django.contrib import admin
+from django.conf.urls.static import static
 from django.urls import path, include
 
 urlpatterns = [
@@ -14,4 +16,4 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('oauth/', include('social_django.urls', namespace='social')),
     path('admin/', admin.site.urls),
-]
+]  + static(settings.MEDIA_URL, document_root= settings.MEDIA_ROOT)

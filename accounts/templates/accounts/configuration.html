@@ -1,5 +1,27 @@
-{{ perfis }}
+{% extends 'core/base.html' %}
+{% block content %}
+    {% if perfis.count < 4  %}
+        <a class="text-info float-right" href="{% url 'new_profile' %}">Inserir novo perfil <i class="fa fa-plus"></i></a>
+    {% endif %}
+<div class="row" style="padding-top: 2%">
+{% for perfil in perfis %}
+    <div class="col warp">
+        <div class="card {% if conta.current_profile == perfil.id %}bg-success{% endif %}">
+            <div class="card-body">
+                <div class="text-center">
+                    <a href="/accounts/set_profile/{{ conta.id }}/{{ perfil.id }}"><img src="https://via.placeholder.com/150" class="rounded" alt="..."></a>
+                </div>
+            </div>
+            <div class="card-footer text-center">
+                <em>{{ perfil }}</em>
+            </div>
+        </div>
+    </div>
+{% endfor %}
+</div>
+    <em>(Clique num dos perfis para selecioná-lo)</em>
+{% if not perfis %}
+    <p>Você ainda não inseriu nenhum perfil <a class="text-info" href="{% url 'new_profile' %}">Inserir <i class="fa fa-plus"></i></a></p>
+{% endif %}
 
-
-<br> <br><br>
-{{ conta }}
+{% endblock %}

@@ -21,8 +21,10 @@ class UserManager(BaseUserManager):
         user.set_password(password)
         user.save(using=self._db)
         return user
+
     def create_user(self, email=None, password=None, **extra_fields):
         return self._create_user(email, password, False, False, **extra_fields)
+
     def create_superuser(self, email, password, **extra_fields):
         user=self._create_user(email, password, True, True, **extra_fields)
         user.is_active=True
@@ -31,9 +33,9 @@ class UserManager(BaseUserManager):
 
 
 class User(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(_('email address'), max_length=255, unique=True, primary_key=True)
     first_name = models.CharField(_('first name'), max_length=30)
     last_name = models.CharField(_('last name'), max_length=30)
-    email = models.EmailField(_('email address'), max_length=255, unique=True)
 
     is_staff = models.BooleanField(_('staff status'), default=False,
                                    help_text=_('Designates whether the user can log into this admin site.'))
@@ -67,6 +69,9 @@ class Account(models.Model):
     current_profile = models.IntegerField(blank=True, null=True)
     birth_date = models.DateField(null=True, blank=True)
 
+    def __str__(self):
+        return self.user.get_short_name()
+
 
 @receiver(post_save, sender=User)
 def create_user_account(sender, instance, created, **kwargs):
@@ -76,13 +81,6 @@ def create_user_account(sender, instance, created, **kwargs):
 
 @receiver(post_save, sender=User)
 def save_user_account(sender, instance, **kwargs):
-    instance.account.save()
-
-
-@receiver(post_save, sender=User)
-def update_user_account(sender, instance, created, **kwargs):
-    if created:
-        Account.objects.create(user=instance)
     instance.account.save()
 
 
@@ -97,5 +95,8 @@ class Movie(models.Model):
 class Profile(models.Model):
     name = models.CharField(max_length=20)
     account = models.ForeignKey(Account, models.DO_NOTHING)
-    image = models.ImageField()
-    movies_list = models.ManyToManyField(Movie)
+    image = models.ImageField(blank=True, null=True)
+    movies_list = models.ManyToManyField(Movie, blank=True, null=True)
+
+    def __str__(self):
+        return self.name
